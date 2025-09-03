@@ -39,13 +39,15 @@ df = spark.read.format('jdbc') \
 ```
 
 # Spark SQL
-```
+
 -- From CSV
+```
 CREATE TEMPORARY VIEW temp_table
 USING csv
 OPTIONS (path 'path/to/file.csv', header 'true', inferSchema 'true');
-
+```
 -- From database
+```
 CREATE TEMPORARY VIEW temp_table
 USING jdbc
 OPTIONS (url 'jdbc:database_connection_string', 
@@ -56,6 +58,7 @@ OPTIONS (url 'jdbc:database_connection_string',
 Data Transformation
 
 -- Filtering and aggregation
+```
 SELECT 
     category,
     COUNT(*) as item_count,
@@ -64,18 +67,21 @@ FROM products
 WHERE price > 10
 GROUP BY category
 HAVING COUNT(*) > 5;
-
+```
 # Filtering and aggregation
+```
 filtered = df[df['price'] > 10]
 result = filtered.groupby('category').agg(
     item_count=('price', 'count'),
     avg_price=('price', 'mean')
 ).reset_index()
-
+```
 # Joining
+```
 merged = pd.merge(df1, df2, on='key_column', how='inner')
-
+```
 # Filtering and aggregation
+```
 from pyspark.sql.functions import avg, count
 
 result = df.filter(df.price > 10) \
@@ -83,7 +89,7 @@ result = df.filter(df.price > 10) \
     .agg(count('*').alias('item_count'),
          avg('price').alias('avg_price')) \
     .filter(count('*') > 5)
-
+```
 # Joining
 merged = df1.join(df2, on='key_column', how='inner')
 
