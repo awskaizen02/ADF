@@ -27,9 +27,11 @@ from pyspark.sql import SparkSession
 spark = SparkSession.builder.appName('Ingestion').getOrCreate()
 
 # From CSV
+```
 df = spark.read.csv('path/to/file.csv', header=True, inferSchema=True)
-
+```
 # From database
+```
 df = spark.read.format('jdbc') \
     .option('url', 'jdbc:database_connection_string') \
     .option('dbtable', 'source_table') \
